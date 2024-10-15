@@ -19,8 +19,8 @@ class ApiService {
   static ApiService? _instance;
 
   final List<Map<String, String?>> _companiesMemo = [];
-  final List<Map<String, String?>> _locationsMemo = [];
-  final List<Map<String, String?>> _assetsMemo = [];
+  final Map<String, List<Map<String, String?>>> _locationsMemo = {};
+  final Map<String, List<Map<String, String?>>> _assetsMemo = {};
 
   Future<List<Map<String, String?>>> getCompanies() async {
     try {
@@ -51,8 +51,8 @@ class ApiService {
 
   Future<List<Map<String, String?>>> getLocations(String id) async {
     try {
-      if (_locationsMemo.isNotEmpty) {
-        return _locationsMemo;
+      if (_locationsMemo[id] != null && _locationsMemo[id]!.isNotEmpty) {
+        return _locationsMemo[id]!;
       }
 
       final response =
@@ -62,12 +62,15 @@ class ApiService {
         final decodedList =
             List<Map<String, dynamic>>.from(jsonDecode(response.body));
 
-        _locationsMemo.addAll(decodedList.map((map) {
+        final mappedList = decodedList.map((map) {
           return map.map((key, value) => MapEntry(key, value?.toString()));
-        }));
+        }).toList();
 
-        _clearCache(_locationsMemo);
-        return _locationsMemo;
+        _locationsMemo.update(id, (_) => mappedList,
+            ifAbsent: () => mappedList);
+
+        _clearCache(_locationsMemo[id]!);
+        return _locationsMemo[id]!;
       } else {
         throw Exception('Failed to load locations: ${response.statusCode}');
       }
@@ -79,8 +82,8 @@ class ApiService {
 
   Future<List<Map<String, String?>>> getAssets(String id) async {
     try {
-      if (_assetsMemo.isNotEmpty) {
-        return _assetsMemo;
+      if (_assetsMemo[id] != null && _assetsMemo[id]!.isNotEmpty) {
+        return _assetsMemo[id]!;
       }
 
       final response =
@@ -90,12 +93,14 @@ class ApiService {
         final decodedList =
             List<Map<String, dynamic>>.from(jsonDecode(response.body));
 
-        _assetsMemo.addAll(decodedList.map((map) {
+        final mappedList = decodedList.map((map) {
           return map.map((key, value) => MapEntry(key, value?.toString()));
-        }));
+        }).toList();
 
-        _clearCache(_assetsMemo);
-        return _assetsMemo;
+        _assetsMemo.update(id, (_) => mappedList, ifAbsent: () => mappedList);
+
+        _clearCache(_assetsMemo[id]!);
+        return _assetsMemo[id]!;
       } else {
         throw Exception('Failed to load assets: ${response.statusCode}');
       }

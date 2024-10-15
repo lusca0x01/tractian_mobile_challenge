@@ -6,8 +6,8 @@ import 'package:tractian_mobile_challenge/features/home/models/company_model.dar
 
 class Config {
   static const String baseURL = String.fromEnvironment('BASE_URL');
-  static ApiService? apiService;
-  static ConnectionChecker? connectionChecker;
+  static late ApiService apiService;
+  static late ConnectionChecker connectionChecker;
 
   static Future<void> init() async {
     if (baseURL.isEmpty) {
@@ -15,20 +15,24 @@ class Config {
     }
 
     connectionChecker = ConnectionChecker(baseURL);
-
+    await connectionChecker.initialize();
     apiService = ApiService(baseURL);
-    await _fetchAll();
+
+    if (connectionChecker.isConnected) await _fetchAll();
   }
 
   static Future<void> _fetchAll() async {
     try {
-      final companiesList = (await apiService?.getCompanies())
-          ?.map((company) => CompanyModel.fromMap(company))
+      final companiesList = (await apiService.getCompanies())
+          .map((company) => CompanyModel.fromMap(company))
           .toList();
 
-      if (companiesList == null) {
-        throw Exception("Error fetching companies");
-      }
+      final futureAssets =
+          companiesList.map((company) => apiService.getAssets(company.id!));
+      final futureLocations =
+          companiesList.map((company) => apiService.getLocations(company.id!));
+
+      await Future.wait([...futureAssets, ...futureLocations]);
     } catch (e) {
       log('Error fetching data: $e');
       throw Exception("Error during data fetching");
