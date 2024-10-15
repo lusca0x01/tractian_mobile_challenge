@@ -24,8 +24,20 @@ class HomeView extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
         if (state.companiesList.isEmpty && !state.isLoading) {
-          return const Center(
-            child: Text("Sem Internet"),
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  ChallengeIcons.noWifi,
+                  size: 60,
+                ),
+                Text(
+                  "Sem Internet",
+                  style: ChallengeTypography.regularLG(color: Colors.black),
+                ),
+              ],
+            ),
           );
         }
         return ListView.separated(
@@ -41,10 +53,13 @@ class HomeView extends StatelessWidget {
               child: InkWell(
                 splashColor: ChallengeColors.blue.withAlpha(30),
                 onTap: () {
-                  Navigator.pushNamed(context, '/assets').then(
+                  Navigator.pushNamed(context, '/assets',
+                      arguments: {"id": state.companiesList[index].id!}).then(
                     (_) {
                       if (context.mounted) {
-                        context.read<HomeBloc>().add(const HomeInitEvent());
+                        context
+                            .read<HomeBloc>()
+                            .add(const FetchCompaniesEvent());
                       }
                     },
                   );
@@ -55,7 +70,7 @@ class HomeView extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 32, right: 16),
-                        child: ChallengeIcons.company,
+                        child: ChallengeIcons.company(),
                       ),
                       Text(
                         state.companiesList[index].name!,

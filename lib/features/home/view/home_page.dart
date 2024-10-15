@@ -12,7 +12,10 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create: (_) => HomeBloc(Config.apiService)..add(const HomeInitEvent()),
+        create: (_) => HomeBloc(
+          connectivityChecker: Config.connectivityChecker,
+          apiService: Config.apiService,
+        )..add(const FetchCompaniesEvent()),
         child: const HomeView(),
       ),
     );
