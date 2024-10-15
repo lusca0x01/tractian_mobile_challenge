@@ -1,23 +1,87 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:material_symbols_icons/symbols.dart';
+import 'package:tractian_mobile_challenge/theme/colors.dart';
 
 class ChallengeIcons {
   ChallengeIcons._();
 
-  static const IconData search = Icons.search;
-  static const IconData energy = Icons.bolt;
-  static const IconData energyOutlined = Icons.bolt_outlined;
-  static const IconData critic = Icons.info_outlined;
-  static const IconData asset = Symbols.deployed_code;
-  static final SvgPicture component = SvgPicture.asset("assets/component.svg");
-  static final SvgPicture company = SvgPicture.asset(
-    "assets/company.svg",
-    width: 24,
-    height: 24,
-  );
-  static const IconData location = Icons.location_on_outlined;
+  static SvgPicture company({Color? color, double? width, double? height}) {
+    return SvgPicture.asset(
+      "assets/company.svg",
+      width: width,
+      height: height,
+      colorFilter:
+          ColorFilter.mode(color ?? ChallengeColors.white, BlendMode.srcIn),
+    );
+  }
+
+  static SvgPicture asset({Color? color, double? width, double? height}) {
+    return SvgPicture.asset(
+      "assets/asset.svg",
+      width: width,
+      height: height,
+      colorFilter:
+          ColorFilter.mode(color ?? ChallengeColors.white, BlendMode.srcIn),
+    );
+  }
+
+  static SvgPicture component({Color? color, double? width, double? height}) {
+    return SvgPicture.asset(
+      "assets/component.svg",
+      width: width,
+      height: height,
+      colorFilter:
+          ColorFilter.mode(color ?? ChallengeColors.white, BlendMode.srcIn),
+    );
+  }
+
+  static SvgPicture location({Color? color, double? width, double? height}) {
+    return SvgPicture.asset(
+      "assets/location.svg",
+      width: width,
+      height: height,
+      colorFilter:
+          ColorFilter.mode(color ?? ChallengeColors.white, BlendMode.srcIn),
+    );
+  }
+
+  static final Image assetImage = Image.asset("assets/asset.png");
+  static final Image componentImage = Image.asset("assets/component.png");
+  static final Image locationImage = Image.asset("assets/location.png");
+
+  static SvgPicture energy({Color? color, double? width, double? height}) {
+    return SvgPicture.asset(
+      "assets/energy.svg",
+      width: width,
+      height: height,
+      colorFilter:
+          ColorFilter.mode(color ?? ChallengeColors.white, BlendMode.srcIn),
+    );
+  }
+
+  static SvgPicture energyFilled(
+      {Color? color, double? width, double? height}) {
+    return SvgPicture.asset(
+      "assets/energy_filled.svg",
+      width: width,
+      height: height,
+      colorFilter:
+          ColorFilter.mode(color ?? ChallengeColors.white, BlendMode.srcIn),
+    );
+  }
+
+  static SvgPicture critical({Color? color, double? width, double? height}) {
+    return SvgPicture.asset(
+      "assets/critical.svg",
+      width: width,
+      height: height,
+      colorFilter:
+          ColorFilter.mode(color ?? ChallengeColors.white, BlendMode.srcIn),
+    );
+  }
+
   static const IconData back = Icons.arrow_back_ios;
+  static const IconData noWifi = Icons.wifi_off_sharp;
 
   static final SvgPicture logo = SvgPicture.asset("assets/logo_tractian.svg");
 }
