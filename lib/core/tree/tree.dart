@@ -1,15 +1,16 @@
 import 'dart:developer';
 
+import 'package:equatable/equatable.dart';
 import 'package:tractian_mobile_challenge/core/tree/node_types.dart';
 import 'package:tractian_mobile_challenge/features/assets/assets.dart';
 
 import 'tree_node.dart';
 
-class Tree {
-  Tree._internal({required this.rootId, required this.nodes});
+class Tree extends Equatable {
+  const Tree._internal({required this.rootId, required this.rootNodes});
 
   final String rootId;
-  final List<TreeNode> nodes;
+  final List<TreeNode> rootNodes;
 
   factory Tree.generateTree(
     String rootId,
@@ -84,8 +85,61 @@ class Tree {
 
     final end = DateTime.now();
 
-    log(end.difference(init).toString());
+    log("Generate Tree time elapsed: ${end.difference(init)}", name: "Tree");
 
-    return Tree._internal(rootId: rootId, nodes: rootElements);
+    return Tree._internal(rootId: rootId, rootNodes: rootElements);
   }
+
+  Tree filterBy(bool Function(TreeNode node) whereClosure) {
+    final init = DateTime.now();
+
+    final List<TreeNode> filteredTree = _filterNodes(rootNodes, whereClosure);
+
+    final end = DateTime.now();
+    log("Filter Tree time elapsed: ${end.difference(init)}", name: "Tree");
+    return Tree._internal(rootId: rootId, rootNodes: filteredTree);
+  }
+
+  List<TreeNode> _filterNodes(
+      List<TreeNode> nodes, bool Function(TreeNode) whereClosure) {
+    final List<TreeNode> filtered = [];
+
+    for (final node in nodes) {
+      final filteredChildren = _filterNodes(node.children, whereClosure);
+
+      if (whereClosure(node) || filteredChildren.isNotEmpty) {
+        final newNode = TreeNode(
+          id: node.id,
+          type: node.type,
+          value: node.value,
+          isCritical: node.isCritical,
+          isEnergy: node.isEnergy,
+        );
+        newNode.parent = node.parent;
+        newNode.children.addAll(filteredChildren);
+        filtered.add(newNode);
+      }
+    }
+
+    return filtered;
+  }
+
+  int getSize() {
+    int size = 0;
+    List<TreeNode> stack = [];
+
+    stack.addAll(rootNodes);
+
+    while (stack.isNotEmpty) {
+      TreeNode currentNode = stack.removeLast();
+      size++;
+
+      stack.addAll(currentNode.children.where((node) => !node.isLeaf).toList());
+    }
+
+    return size;
+  }
+
+  @override
+  List<Object?> get props => [rootId, rootNodes];
 }
