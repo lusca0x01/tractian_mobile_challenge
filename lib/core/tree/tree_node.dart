@@ -1,5 +1,13 @@
 import 'node_types.dart';
 
+/// The [TreeNode] class represents a node in the [Tree] class.
+///
+/// It includes attributes to store an [id], [type], [value], and references
+/// to its [parent] and [children]. Additionally, flags like [isCritical] and
+/// [isEnergy] help filtering special nodes.
+///
+/// The [visibleChildrenCount] is needed for the UI to optimize the expanded
+/// Node state.
 class TreeNode {
   TreeNode({
     required this.id,
@@ -20,6 +28,8 @@ class TreeNode {
   int visibleChildrenCount;
   bool get isLeaf => children.isEmpty;
 
+  /// Adds a single child node to the current node’s children list and sets the
+  /// current node as the child’s parent.
   void addChild(TreeNode child) {
     child.parent = this;
     children.add(child);
