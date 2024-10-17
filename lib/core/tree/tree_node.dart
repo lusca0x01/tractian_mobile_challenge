@@ -1,5 +1,8 @@
 import 'node_types.dart';
 
+// Equatable was not used here because it requires all variables to be final.
+// However, fields like parent, children, and visibleChildrenCount are mutable.
+
 /// The [TreeNode] class represents a node in the [Tree] class.
 ///
 /// It includes attributes to store an [id], [type], [value], and references
