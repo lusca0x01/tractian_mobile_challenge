@@ -26,7 +26,7 @@ class TreeView extends StatelessWidget {
         return TreeNodeWidget(
           node: tree.rootNodes[index],
           initiallyExpanded: shouldExpand,
-          isBig: tree.getSize() > 100,
+          bigTree: tree.getSize(withLeaves: false) > 100,
         );
       },
     );

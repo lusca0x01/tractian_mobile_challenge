@@ -123,7 +123,11 @@ class Tree extends Equatable {
     return filtered;
   }
 
-  int getSize() {
+  /// Returns the total number of nodes in the tree.
+  ///
+  /// The [withLeaves] define if the method will count the leaves or not in the
+  /// tree size.
+  int getSize({bool withLeaves = false}) {
     int size = 0;
     List<TreeNode> stack = [];
 
@@ -133,7 +137,13 @@ class Tree extends Equatable {
       TreeNode currentNode = stack.removeLast();
       size++;
 
-      stack.addAll(currentNode.children.where((node) => !node.isLeaf).toList());
+      if (!withLeaves) {
+        stack.addAll(
+            currentNode.children.where((child) => !child.isLeaf).toList());
+        continue;
+      }
+
+      stack.addAll(currentNode.children.toList());
     }
 
     return size;

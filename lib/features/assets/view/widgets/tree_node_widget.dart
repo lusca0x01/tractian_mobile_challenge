@@ -9,13 +9,13 @@ import 'package:tractian_mobile_challenge/theme/typography.dart';
 class TreeNodeWidget extends StatefulWidget {
   final TreeNode node;
   final bool initiallyExpanded;
-  final bool isBig;
+  final bool bigTree;
 
   const TreeNodeWidget({
     super.key,
     required this.node,
     required this.initiallyExpanded,
-    required this.isBig,
+    required this.bigTree,
   });
 
   @override
@@ -27,7 +27,7 @@ class _TreeNodeWidgetState extends State<TreeNodeWidget> {
   Widget build(BuildContext context) {
     final node = widget.node;
     final initiallyExpanded = widget.initiallyExpanded;
-    final isBig = widget.isBig;
+    final bigTree = widget.bigTree;
 
     return ExpansionTile(
       key: ValueKey("${node.id}.${widget.initiallyExpanded}"),
@@ -75,13 +75,13 @@ class _TreeNodeWidgetState extends State<TreeNodeWidget> {
       shape: const RoundedRectangleBorder(
         side: BorderSide.none,
       ),
-      children: initiallyExpanded && isBig
+      children: initiallyExpanded && bigTree
           ? [
               ...node.children.take(node.visibleChildrenCount).map((childNode) {
                 return TreeNodeWidget(
                   node: childNode,
                   initiallyExpanded: initiallyExpanded,
-                  isBig: isBig,
+                  bigTree: bigTree,
                 );
               }),
               if (node.visibleChildrenCount < node.children.length)
@@ -107,7 +107,7 @@ class _TreeNodeWidgetState extends State<TreeNodeWidget> {
               return TreeNodeWidget(
                 node: childNode,
                 initiallyExpanded: initiallyExpanded,
-                isBig: isBig,
+                bigTree: bigTree,
               );
             }).toList(),
     );
