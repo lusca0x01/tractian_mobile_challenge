@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tractian_mobile_challenge/connectivity_checker.dart';
+import 'package:tractian_mobile_challenge/core/connection_checker/connectivity_checker.dart';
 import 'package:tractian_mobile_challenge/core/api/api_service.dart';
 import 'package:tractian_mobile_challenge/core/tree/tree.dart';
 import 'package:tractian_mobile_challenge/features/assets/assets.dart';
