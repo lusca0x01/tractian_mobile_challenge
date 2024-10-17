@@ -115,8 +115,7 @@ class Tree extends Equatable {
           isCritical: node.isCritical,
           isEnergy: node.isEnergy,
         );
-        newNode.parent = node.parent;
-        newNode.children.addAll(filteredChildren);
+        newNode.addChildren(filteredChildren);
         filtered.add(newNode);
       }
     }

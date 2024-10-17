@@ -25,6 +25,16 @@ class TreeNode {
     children.add(child);
   }
 
+  /// Adds dds multiple children nodes to the current node’s children list and
+  /// assigns the current node as their parent.
+  void addChildren(List<TreeNode> newChildren) {
+    for (var child in newChildren) {
+      child.parent = this;
+    }
+
+    children.addAll(newChildren);
+  }
+
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
