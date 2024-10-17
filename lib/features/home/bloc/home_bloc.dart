@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tractian_mobile_challenge/connectivity_checker.dart';
 import 'package:tractian_mobile_challenge/core/api/api_service.dart';
@@ -10,13 +12,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       : super(const HomeState()) {
     on<FetchCompaniesEvent>(_onFetchCompaniesEvent);
 
-    connectivityChecker.isConnectedStream.listen((event) {
+    _isConnectedStreamSubscription =
+        connectivityChecker.isConnectedStream.listen((event) {
       add(const FetchCompaniesEvent());
     });
   }
 
   final ApiService apiService;
   final ConnectivityChecker connectivityChecker;
+  StreamSubscription? _isConnectedStreamSubscription;
 
   Future<void> _onFetchCompaniesEvent(
       FetchCompaniesEvent event, Emitter<HomeState> emit) async {
@@ -36,5 +40,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     } catch (e) {
       emit(state.copyWith(isLoading: false));
     }
+  }
+
+  @override
+  Future<void> close() async {
+    await _isConnectedStreamSubscription?.cancel();
+    return super.close();
   }
 }
