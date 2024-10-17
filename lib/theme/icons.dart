@@ -45,10 +45,6 @@ class ChallengeIcons {
     );
   }
 
-  static final Image assetImage = Image.asset("assets/asset.png");
-  static final Image componentImage = Image.asset("assets/component.png");
-  static final Image locationImage = Image.asset("assets/location.png");
-
   static SvgPicture energy({Color? color, double? width, double? height}) {
     return SvgPicture.asset(
       "assets/energy.svg",
