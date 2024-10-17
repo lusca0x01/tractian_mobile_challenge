@@ -3,17 +3,27 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 
-// As the API only has 3 GET routes, I will prefer to make it monolithic
+// As the API only has 3 GET routes, I will prefer to make it monolithic.
+
+/// The [ApiService] class provides methods for fetching data from a remote API
+/// and implements basic caching mechanisms to optimize network usage. It is
+/// designed to interact with three API endpoints: companies, locations,
+/// and assets. The service also caches the fetched data for a defined period,
+/// using a memoization technique.
 class ApiService {
   ApiService._internal(this._apiURL);
 
+  /// Constructs a singleton instance of [ApiService] with API URL as
+  /// a parameter.
+  ///
+  /// [ApiService] is designed to work as a singleton.
   factory ApiService(String apiURL) {
     _instance ??= ApiService._internal(apiURL);
     return _instance!;
   }
 
   final Duration _cacheDuration =
-      const Duration(seconds: 5); // Arbitrary cache duration
+      const Duration(seconds: 5); // Arbitrary cache duration.
 
   final String _apiURL;
   static ApiService? _instance;
