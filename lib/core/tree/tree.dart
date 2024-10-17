@@ -6,12 +6,19 @@ import 'package:tractian_mobile_challenge/features/assets/assets.dart';
 
 import 'tree_node.dart';
 
+/// The [Tree] class represents a tree data structure, where each node is a
+/// [TreeNode].
+///
+/// It build it's tree from the data models provided on the models present on
+/// the assets feature.
 class Tree extends Equatable {
   const Tree._internal({required this.rootId, required this.rootNodes});
 
   final String rootId;
   final List<TreeNode> rootNodes;
 
+  /// Factory method to generate a tree from a list of locations, assets, and
+  /// components.
   factory Tree.generateTree(
     String rootId,
     List<LocationModel> locationList,
@@ -90,6 +97,10 @@ class Tree extends Equatable {
     return Tree._internal(rootId: rootId, rootNodes: rootElements);
   }
 
+  /// Filters the tree based on a condition provided by the [whereClosure].
+  ///
+  /// The conditions are: value (text filtering), if it's a critical node or an
+  /// energy one.
   Tree filterBy(bool Function(TreeNode node) whereClosure) {
     final init = DateTime.now();
 
