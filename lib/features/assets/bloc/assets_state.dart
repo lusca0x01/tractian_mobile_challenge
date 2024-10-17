@@ -1,48 +1,38 @@
 import 'package:equatable/equatable.dart';
-import 'package:tractian_mobile_challenge/features/assets/assets.dart';
+import 'package:tractian_mobile_challenge/core/tree/tree.dart';
 
 class AssetsState extends Equatable {
   const AssetsState({
     this.isLoading = true,
+    this.searchTextFilter = "",
     this.energySensorFilter = false,
     this.criticalFilter = false,
-    this.locationsList = const [],
-    this.assetsList = const [],
-    this.componentsList = const [],
+    this.tree,
   });
 
   final bool isLoading;
+  final String searchTextFilter;
   final bool energySensorFilter;
   final bool criticalFilter;
-  final List<LocationModel> locationsList;
-  final List<AssetModel> assetsList;
-  final List<ComponentModel> componentsList;
+  final Tree? tree;
 
   AssetsState copyWith({
     bool? isLoading,
+    String? searchTextFilter,
     bool? energySensorFilter,
     bool? criticalFilter,
-    List<LocationModel>? locationsList,
-    List<AssetModel>? assetsList,
-    List<ComponentModel>? componentsList,
+    Tree? tree,
   }) {
     return AssetsState(
       isLoading: isLoading ?? this.isLoading,
+      searchTextFilter: searchTextFilter ?? this.searchTextFilter,
       energySensorFilter: energySensorFilter ?? this.energySensorFilter,
       criticalFilter: criticalFilter ?? this.criticalFilter,
-      locationsList: locationsList ?? this.locationsList,
-      assetsList: assetsList ?? this.assetsList,
-      componentsList: componentsList ?? this.componentsList,
+      tree: tree ?? this.tree,
     );
   }
 
   @override
-  List<Object?> get props => [
-        isLoading,
-        energySensorFilter,
-        criticalFilter,
-        locationsList,
-        assetsList,
-        componentsList,
-      ];
+  List<Object?> get props =>
+      [isLoading, searchTextFilter, energySensorFilter, criticalFilter, tree];
 }

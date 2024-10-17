@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tractian_mobile_challenge/connectivity_checker.dart';
 import 'package:tractian_mobile_challenge/core/api/api_service.dart';
@@ -16,28 +18,44 @@ class AssetsBloc extends Bloc<AssetsEvent, AssetsState> {
     on<EnergySensorFilterEvent>(_onEnergySensorFilterEvent);
     on<CriticalFilterEvent>(_onCriticalFilterEvent);
     on<SearchFilterEvent>(_onSearchFilterEvent);
+
+    _isConnectedStreamSubscription =
+        connectivityChecker.isConnectedStream.listen((event) {
+      if ((tree?.rootNodes.isEmpty ?? true) && event) {
+        add(const FetchAssetsEvent());
+      }
+    });
   }
 
   final String id;
   final ApiService apiService;
   final ConnectivityChecker connectivityChecker;
   Tree? tree;
+  List<LocationModel> locationsList = [];
+  List<ComponentModel> componentsList = [];
+  List<AssetModel> assetsList = [];
+  StreamSubscription? _isConnectedStreamSubscription;
 
   Future<void> _onFetchAssetsEvent(
       FetchAssetsEvent event, Emitter<AssetsState> emit) async {
     emit(state.copyWith(isLoading: true));
     try {
+      if (!connectivityChecker.isConnected) {
+        emit(state.copyWith(isLoading: false, tree: null));
+        return;
+      }
+
       final data = await Future.wait(
           [apiService.getLocations(id), apiService.getAssets(id)]);
 
-      final List<LocationModel> locationsList = data[0]
+      locationsList = data[0]
           .map((locations) => LocationModel(
               id: locations["id"],
               name: locations["name"],
               parentId: locations["parentId"]))
           .toList();
 
-      final List<ComponentModel> componentsList = data[1]
+      componentsList = data[1]
           .where((item) => item["sensorType"] != null)
           .map((component) => ComponentModel(
                 id: component["id"],
@@ -50,7 +68,8 @@ class AssetsBloc extends Bloc<AssetsEvent, AssetsState> {
                 locationId: component["locationId"],
               ))
           .toList();
-      final List<AssetModel> assetsList = data[1]
+
+      assetsList = data[1]
           .where((item) => item["sensorType"] == null)
           .map((asset) => AssetModel(
                 id: asset["id"],
@@ -62,13 +81,9 @@ class AssetsBloc extends Bloc<AssetsEvent, AssetsState> {
 
       tree = Tree.generateTree(id, locationsList, assetsList, componentsList);
 
-      emit(state.copyWith(
-          locationsList: locationsList,
-          assetsList: assetsList,
-          componentsList: componentsList,
-          isLoading: false));
+      emit(state.copyWith(tree: tree, isLoading: false));
     } catch (e) {
-      emit(state.copyWith(isLoading: false));
+      emit(state.copyWith(isLoading: false, tree: null));
     }
   }
 
