@@ -8,6 +8,7 @@ import 'package:tractian_mobile_challenge/features/assets/view/widgets/tree_view
 import 'package:tractian_mobile_challenge/theme/colors.dart';
 import 'package:tractian_mobile_challenge/theme/icons.dart';
 import 'package:tractian_mobile_challenge/theme/typography.dart';
+import 'package:async/async.dart';
 
 class AssetsView extends StatelessWidget {
   const AssetsView({super.key});
@@ -15,6 +16,9 @@ class AssetsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
+    final TextEditingController searchBarController = TextEditingController();
+    RestartableTimer? restartableTimer;
 
     return Scaffold(
       appBar: AppBar(
@@ -29,8 +33,8 @@ class AssetsView extends StatelessWidget {
           style: ChallengeTypography.regularLG(color: ChallengeColors.white),
         ),
       ),
-      body: BlocBuilder<AssetsBloc, AssetsState>(builder: (context, state) {
-        if (state.isLoading == false && state.assetsList.isNotEmpty) {
+      body: BlocBuilder<AssetsBloc, AssetsState>(
+        builder: (context, state) {
           return Column(
             children: [
               Padding(
@@ -45,6 +49,22 @@ class AssetsView extends StatelessWidget {
                         child: SizedBox(
                           height: size.height * 0.05,
                           child: SearchBar(
+                            controller: searchBarController,
+                            onChanged: (value) {
+                              restartableTimer ??= RestartableTimer(
+                                const Duration(milliseconds: 500),
+                                () => context.read<AssetsBloc>().add(
+                                      SearchFilterEvent(
+                                          searchBarController.text),
+                                    ),
+                              );
+                              restartableTimer?.reset();
+                            },
+                            onSubmitted: (value) {
+                              restartableTimer?.cancel();
+                              context.read<AssetsBloc>().add(
+                                  SearchFilterEvent(searchBarController.text));
+                            },
                             backgroundColor: const WidgetStatePropertyAll(
                                 ChallengeColors.gray100),
                             hintText: "Buscar Ativo ou Local",
@@ -127,16 +147,43 @@ class AssetsView extends StatelessWidget {
                   ),
                 ),
               ),
-              const Divider(),
-              Expanded(
-                child: TreeView(tree: context.read<AssetsBloc>().tree!),
+              const Divider(
+                color: ChallengeColors.gray100,
               ),
+              if (!state.isLoading &&
+                  (state.tree?.rootNodes.isNotEmpty ?? false))
+                Expanded(
+                  child: TreeView(
+                    tree: state.tree!,
+                  ),
+                ),
+              if (!state.isLoading && (state.tree?.rootNodes.isEmpty ?? true))
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: Center(
+                    child: Text(
+                      "Erro ao buscar dados da árvore",
+                      style: ChallengeTypography.regularLG(
+                          color: ChallengeColors.black),
+                    ),
+                  ),
+                ),
+              if (state.isLoading)
+                const Expanded(
+                  child: Center(
+                    child: SizedBox(
+                      height: 64,
+                      width: 64,
+                      child: CircularProgressIndicator(
+                        color: ChallengeColors.blue,
+                      ),
+                    ),
+                  ),
+                )
             ],
           );
-        }
-
-        return const Center(child: CircularProgressIndicator());
-      }),
+        },
+      ),
     );
   }
 }
