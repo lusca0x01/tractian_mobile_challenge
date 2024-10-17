@@ -25,7 +25,7 @@ class AssetsView extends StatelessWidget {
         backgroundColor: ChallengeColors.deepBlue,
         centerTitle: true,
         leading: IconButton(
-          icon: const Icon(ChallengeIcons.back, color: Colors.white),
+          icon: const Icon(ChallengeIcons.back, color: ChallengeColors.white),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -38,14 +38,14 @@ class AssetsView extends StatelessWidget {
           return Column(
             children: [
               Padding(
-                padding:
-                    const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+                padding: const EdgeInsets.symmetric(
+                    vertical: 16.0, horizontal: 16.0),
                 child: SizedBox(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
+                        padding: const EdgeInsets.only(bottom: 8.0),
                         child: SizedBox(
                           height: size.height * 0.05,
                           child: SearchBar(
