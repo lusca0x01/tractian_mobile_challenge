@@ -88,17 +88,67 @@ class AssetsBloc extends Bloc<AssetsEvent, AssetsState> {
   }
 
   void _onEnergySensorFilterEvent(
-      EnergySensorFilterEvent event, Emitter<AssetsState> emit) {
+      EnergySensorFilterEvent event, Emitter<AssetsState> emit) async {
     emit(state.copyWith(
-        energySensorFilter: !state.energySensorFilter, criticalFilter: false));
+      energySensorFilter: !state.energySensorFilter,
+      isLoading: true,
+    ));
+
+    emit(state.copyWith(
+      tree: _apllyFilters(),
+      isLoading: false,
+    ));
   }
 
   void _onCriticalFilterEvent(
-      CriticalFilterEvent event, Emitter<AssetsState> emit) {
+      CriticalFilterEvent event, Emitter<AssetsState> emit) async {
     emit(state.copyWith(
-        criticalFilter: !state.criticalFilter, energySensorFilter: false));
+      criticalFilter: !state.criticalFilter,
+      isLoading: true,
+    ));
+
+    emit(state.copyWith(
+      tree: _apllyFilters(),
+      isLoading: false,
+    ));
   }
 
   void _onSearchFilterEvent(
-      SearchFilterEvent event, Emitter<AssetsState> emit) {}
+      SearchFilterEvent event, Emitter<AssetsState> emit) {
+    emit(state.copyWith(
+      searchTextFilter: event.searchText,
+      isLoading: true,
+    ));
+
+    emit(state.copyWith(
+      tree: _apllyFilters(),
+      isLoading: false,
+    ));
+  }
+
+  Tree? _apllyFilters() {
+    Tree? filteredTree = tree;
+
+    if (state.energySensorFilter) {
+      filteredTree = filteredTree?.filterBy((node) => node.isEnergy);
+    }
+
+    if (state.criticalFilter) {
+      filteredTree = filteredTree?.filterBy((node) => node.isCritical);
+    }
+
+    if (state.searchTextFilter.isNotEmpty) {
+      filteredTree = filteredTree?.filterBy((node) => node.value
+          .toLowerCase()
+          .contains(state.searchTextFilter.toLowerCase()));
+    }
+
+    return filteredTree;
+  }
+
+  @override
+  Future<void> close() async {
+    await _isConnectedStreamSubscription?.cancel();
+    return super.close();
+  }
 }
