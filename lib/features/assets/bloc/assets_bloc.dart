@@ -38,6 +38,16 @@ class AssetsBloc extends Bloc<AssetsEvent, AssetsState> {
 
   Future<void> _onFetchAssetsEvent(
       FetchAssetsEvent event, Emitter<AssetsState> emit) async {
+    if (locationsList.isNotEmpty &&
+        componentsList.isNotEmpty &&
+        assetsList.isNotEmpty) {
+      emit(state.copyWith(
+          isLoading: false,
+          tree: Tree.generateTree(
+              id, locationsList, assetsList, componentsList)));
+      return;
+    }
+
     emit(state.copyWith(isLoading: true));
     try {
       if (!connectivityChecker.isConnected) {
@@ -149,6 +159,9 @@ class AssetsBloc extends Bloc<AssetsEvent, AssetsState> {
   @override
   Future<void> close() async {
     await _isConnectedStreamSubscription?.cancel();
+    assetsList.clear();
+    componentsList.clear();
+    locationsList.clear();
     return super.close();
   }
 }

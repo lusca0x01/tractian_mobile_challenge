@@ -29,5 +29,5 @@ class AssetModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, name, locationId];
+  List<Object?> get props => [id, name, locationId, parentId];
 }
