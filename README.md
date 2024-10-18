@@ -10,7 +10,7 @@ This project refers to a mobile challenge created by the Tractian company. The l
 
   
 
-The idea is to **Build an Tree View Application that shows companies Assets**  _(The tree is basically composed with components, assets and locations)_.
+The idea is to **Build a Tree View Application that shows companies Assets**  _(The tree is basically composed with components, assets and locations)_.
 
   
 
