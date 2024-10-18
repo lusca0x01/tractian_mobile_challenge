@@ -178,4 +178,7 @@ The **AssetsBloc** class is responsible for managing the state and events relate
 
 ### Android:
 
-https://github.com/lusca0x01/tractian_mobile_challenge/assets/application_video.mp4
+
+https://github.com/user-attachments/assets/eff5bb3c-f03d-4d9a-a897-9582adf10eeb
+
+
