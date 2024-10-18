@@ -29,7 +29,22 @@ https://github.com/user-attachments/assets/eff5bb3c-f03d-4d9a-a897-9582adf10eeb
 https://github.com/user-attachments/assets/e3484c45-1de7-4a46-b44f-e6358952a932
 
 
-  
+### Tree Generation "Benchmark" (debug mode):
+
+
+The Apex company was used in this example:
+![image](https://github.com/user-attachments/assets/7a6ca518-0926-4181-a1c7-25b73ddb2d8c)
+
+
+### Tree Filtering "Benchmark" (debug mode):
+
+
+The Apex company was used in this example:
+![image](https://github.com/user-attachments/assets/bc8a38fd-44b8-4a84-a45d-c61ed51f6798)
+
+
+
+
 ## Dependencies
 
   
