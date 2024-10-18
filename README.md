@@ -1,6 +1,3 @@
-
-  
-
 # Tractian Mobile Challenge
 
   
@@ -23,6 +20,16 @@ The idea is to **Build an Tree View Application that shows companies Assets**  _
 
   
 
+## The Demo:
+
+### Android:
+
+
+https://github.com/user-attachments/assets/eff5bb3c-f03d-4d9a-a897-9582adf10eeb
+
+  
+
+  
 ## Dependencies
 
   
@@ -49,9 +56,10 @@ The idea is to **Build an Tree View Application that shows companies Assets**  _
 
 The layered architecture used in the project, follows the VGV (Very Good Ventures) [guide](https://verygood.ventures/blog/very-good-flutter-architecture).
 
+To customize the behavior of the application based on different environments, it is necessary to compile the app with the `--dart-define BASE_URL=https://fake-api.tractian.com`.
   
 
-The application has 3 core features, they are:
+The application has 3 core components, they are:
 
   
 
@@ -174,12 +182,4 @@ The **ComponentModel** is responsible for parsing the data getted from the API s
 The **AssetsBloc** class is responsible for managing the state and events related to the assets feature, specifically the fetching and updating of the lists of locations, assets, and components. It handles the creation of the asset tree and applies filters to this tree. Utilizing the **BLoC** (Business Logic Component) pattern, this class encapsulates business logic, performs connectivity checks, and makes API calls, providing a clean separation between the user interface and data handling.
 
 ---
-
-## The video:
-
-### Android:
-
-
-https://github.com/user-attachments/assets/eff5bb3c-f03d-4d9a-a897-9582adf10eeb
-
 
