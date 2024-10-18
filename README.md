@@ -2,11 +2,7 @@
 
   
 
-  
-
 This project refers to a mobile challenge created by the Tractian company. The link for the [challenge](https://github.com/tractian/challenges/tree/main/mobile).
-
-  
 
   
 
@@ -18,9 +14,7 @@ The idea is to **Build an Tree View Application that shows companies Assets**  _
 
   
 
-  
-
-## The Demo:
+## The Demo
 
 ### Android:
 
@@ -54,8 +48,6 @@ https://github.com/user-attachments/assets/e3484c45-1de7-4a46-b44f-e6358952a932
 
   
 
-  
-
 ## The project
 
   
@@ -66,8 +58,6 @@ To customize the behavior of the application based on different environments, it
   
 
 The application has 3 core components, they are:
-
-  
 
   
 
@@ -93,8 +83,6 @@ It uses the lookup function provided in the dart:io library to verify if the app
 
   
 
-  
-
 ### Tree:
 
 The **Tree** is responsible for generating and representing the requested **AssetsTree** for the challenge.
@@ -117,13 +105,9 @@ For an UI perfomance needing (expanded nodes state), the **TreeNode** class has 
 
   
 
-  
-
 ---
 
 The application also has 2 main features, they are:
-
-  
 
   
 
@@ -189,3 +173,8 @@ The **AssetsBloc** class is responsible for managing the state and events relate
 
 ---
 
+## Areas for Improvement
+
+- Improve some UI customization for the node widgets and buttons.
+- Find other ways to improve the application performance with more nodes on the tree.
+- Create unittests and integrations tests to validate the performance of the application.
