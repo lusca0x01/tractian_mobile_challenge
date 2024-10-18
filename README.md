@@ -33,7 +33,8 @@ https://github.com/user-attachments/assets/e3484c45-1de7-4a46-b44f-e6358952a932
 
 
 The Apex company was used in this example:
-![image](https://github.com/user-attachments/assets/7a6ca518-0926-4181-a1c7-25b73ddb2d8c)
+![photo](https://github.com/user-attachments/assets/0e3479d8-1eb0-493d-833c-6f8bf80bc735)
+
 
 
 ### Tree Filtering "Benchmark" (debug mode):
@@ -43,6 +44,18 @@ The Apex company was used in this example:
 ![image](https://github.com/user-attachments/assets/bc8a38fd-44b8-4a84-a45d-c61ed51f6798)
 
 
+
+## Build
+
+
+- Build to Android:
+```bash
+flutter build apk --release --dart-define BASE_URL=https://fake-api.tractian.com
+```
+- Run the App in Release:
+```bash
+flutter run --release --dart-define BASE_URL=https://fake-api.tractian.com
+```
 
 
 ## Dependencies
