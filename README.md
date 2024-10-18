@@ -172,6 +172,7 @@ The **ComponentModel** is responsible for parsing the data getted from the API s
   
 
 The **AssetsBloc** class is responsible for managing the state and events related to the assets feature, specifically the fetching and updating of the lists of locations, assets, and components. It handles the creation of the asset tree and applies filters to this tree. Utilizing the **BLoC** (Business Logic Component) pattern, this class encapsulates business logic, performs connectivity checks, and makes API calls, providing a clean separation between the user interface and data handling.
+
 ---
 
 ## The video:
