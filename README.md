@@ -69,7 +69,7 @@ The Apex company was used in this example:
 
 The layered architecture used in the project, follows the VGV (Very Good Ventures) [guide](https://verygood.ventures/blog/very-good-flutter-architecture).
 
-To customize the behavior of the application based on different environments, it is necessary to compile the app with the `--dart-define BASE_URL=https://fake-api.tractian.com`.
+To customize the behavior of the application based on different environments, it is necessary to compile the app with the `--dart-define BASE_URL=https://fake-api.tractian.com`. (both in `flutter run`and `flutter build`)
   
 
 The application has 3 core components, they are:
